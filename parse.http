@@ -1,0 +1,32 @@
+### Get All NoteBlock
+GET http://localhost:1337/parse/classes/NoteBlock HTTP/1.1
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+### Create A NoteBlock
+POST http://localhost:1337/parse/classes/NoteBlock
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+{
+    "timestamp": 1600114704146,
+    "type": "paragraph",
+    "data":  {
+        "text": "this is the text"
+    },
+    "notebookID": "#http_client"
+}
+
+### Get Schema
+
+GET http://localhost:1337/parse/schemas
+X-Parse-Application-Id: editor-backend
+X-Parse-Master-Key: passw0rd
+Content-Type: application/json
+
+### Delete Object
+
+DELETE http://localhost:1337/parse/classes/NoteBlock/e6SYSLI2IT
+X-Parse-Application-Id: editor-backend
+X-Parse-Master-Key: passw0rd
+
