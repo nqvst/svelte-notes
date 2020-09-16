@@ -1,38 +1,75 @@
 import App from './App.svelte'
-import { init, NoteBlock } from './parse'
+import { init, Note, NoteBlock } from './parse'
 import Storage from './localstorage'
 import { text } from 'svelte/internal'
 import { tryParse } from './json'
+import { createNote, updateNote } from './api'
 
 const Parse = init()
 
 const notebookId = window.location.hash || 'notehash1'
 
+let myBlocks = []
+
 const q = new Parse.Query(NoteBlock)
 q.equalTo('notebookID', notebookId)
-q.find().then((res) => {
-    console.log(res)
-    const objects = res.map((b) => {
-        return {
-            type: b.get('type'),
-            text: tryParse(b.get('data')),
-            timestamp: b.get('timestamp'),
+
+const saveObject = (object) => {
+    return object.save().then(
+        (o) => {
+            console.log('New object created with objectId: ' + o.id)
+            return o
+        },
+        (error) => {
+            console.log(
+                'Failed to create new object, with error code: ' + error.message
+            )
         }
-    })
-    console.log(objects)
-})
+    )
+}
+
+const saveNote = (noteData, noteObject) => {
+    if (noteObject && noteObject.objectId) {
+        return updateNote(noteObject.objectId, noteData).then((res) => {
+            console.log(res)
+            return res
+        })
+    } else {
+        return createNote(noteData).then((res) => {
+            window.location.hash = `#${res.objectId}`
+            return res
+        })
+    }
+    // const note = new Note()
+    // return note
+    //     .save({
+    //         ...noteData,
+    //         notebookId,
+    //     })
+    //     .then(
+    //         (note) => {
+    //             console.log('New object created with objectId: ' + note.id)
+    //             return note
+    //         },
+    //         (error) => {
+    //             console.log(
+    //                 'Failed to create new object, with error code: ' +
+    //                     error.message
+    //             )
+    //         }
+    //     )
+}
 
 const saveBlocks = (blocks) => {
     const promises = blocks.map((b) => {
         const block = new NoteBlock()
         block.set('timestamp', Date.now())
         block.set('type', b.type)
-        block.set('data', JSON.stringify(b.data))
+        block.set('data', b.data)
         block.set('notebookID', notebookId)
         return block.save().then(
             (b) => {
                 // Execute any logic that should take place after the object is saved.
-                console.log('New object created with objectId: ' + b.id)
             },
             (error) => {
                 // Execute any logic that should take place if the save fails.
@@ -51,7 +88,7 @@ const app = new App({
     target: document.body,
     props: {
         name: 'world',
-        save: saveBlocks,
+        save: saveNote,
     },
 })
 

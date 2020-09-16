@@ -8,3 +8,4 @@ export const init = () => {
 }
 
 export const NoteBlock = Parse.Object.extend('NoteBlock')
+export const Note = Parse.Object.extend('Note')

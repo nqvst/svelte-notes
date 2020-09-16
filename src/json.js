@@ -4,7 +4,7 @@ const tryParse = (string) => {
     } catch (e) {
         // console.log(e)
     }
-    return null
+    return undefined
 }
 
 export default { tryParse }

@@ -1,0 +1,58 @@
+
+### Get All NoteBlock wher NotebookId is #http_client
+GET http://localhost:1337/parse/classes/NoteBlock?where={"notebookId":"http_client"}
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+### Get All NoteBlock
+GET http://localhost:1337/parse/classes/NoteBlock
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+### Get All Notes
+GET http://localhost:1337/parse/classes/Note
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+### a specific Note
+GET http://localhost:1337/parse/classes/Note/AZ3yQ0WWM2
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+### create a note
+
+
+### update a note
+PUT http://localhost:1337/parse/classes/Note/AZ3yQ0WWM2
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+{
+    "notebookId": "changed {{$randomInt 1000 9999}}"
+}
+
+### Create A NoteBlock
+POST http://localhost:1337/parse/classes/NoteBlock
+X-Parse-Application-Id: editor-backend
+content-type: application/json
+
+{
+    "timestamp": 1600114704146,
+    "type": "paragraph",
+    "data":  {
+        "text": "this is the text ninas text"
+    },
+    "notebookId": "nina"
+}
+
+### Get Schema
+GET http://localhost:1337/parse/schemas
+X-Parse-Application-Id: editor-backend
+X-Parse-Master-Key: passw0rd
+Content-Type: application/json
+
+### Delete Object
+
+DELETE http://localhost:1337/parse/classes/NoteBlock/BAaBVkxowq
+X-Parse-Application-Id: editor-backend
+X-Parse-Master-Key: passw0rd
